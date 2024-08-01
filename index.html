@@ -1,108 +1,26 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
-  <style>
-    /* Modal styles */
-    .modal {
-      display: flex;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
-      justify-content: center;
-      align-items: center;
-    }
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+  </head>
+  <body>
+    <a-scene mindar-image="imageTargetSrc: ./assets/card-example/card.mind" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets>
+        <img id="card" src="./assets/card-example/card.png">
+        <video id="video" src="./assets/card-example/card.mp4" loop></video>
+        <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
+      </a-assets>
 
-    .modal-content {
-      background-color: #fefefe;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      text-align: center;
-    }
-
-    .ok-button {
-      background-color: #4CAF50; /* Green */
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <!-- Modal HTML -->
-  <div id="myModal" class="modal">
-    <div class="modal-content">
-      <p>Click OK to start scanning for the marker.</p>
-      <button id="startButton" class="ok-button">OK</button>
-    </div>
-  </div>
-
-  <a-scene id="scene" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-    <a-assets>
-      <img id="card" src="./assets/card-example/card.png" />
-      <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
-    </a-assets>
-
-    <a-camera id="camera" position="0 0 0" look-controls="enabled: false"></a-camera>
-    <a-entity id="target" mindar-image-target="targetIndex: 0" visible="false">
-      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-      <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel"
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+        <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065"></a-video>
+        <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
         animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer>
-      </a-gltf-model>
-    </a-entity>
-    <a-text style="color: #f00">Ver1.0.9</a-text>
-  </a-scene>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var modal = document.getElementById("myModal");
-      var startButton = document.getElementById("startButton");
-      var scene = document.getElementById("scene");
-      var camera = document.getElementById("camera");
-      var mindarImage = document.querySelector('[mindar-image]');
-
-      // Initially hide the scene
-      scene.style.display = "none";
-
-      // Show the modal on page load
-      modal.style.display = "flex";
-
-      // Enable marker reading when OK button is clicked
-      startButton.addEventListener('click', function() {
-        modal.style.display = "none"; // Hide modal
-        scene.style.display = "block"; // Show scene
-
-        // Ensure the scene and camera are fully initialized
-        setTimeout(() => {
-          // Initialize camera if needed
-          camera.setAttribute('active', true);
-          
-          // Ensure MindAR starts scanning
-          mindarImage.setAttribute('enabled', true); // Enable MindAR component
-        }, 500); // Wait a bit for the scene to fully render
-      });
-
-      // When marker is detected, start WebAR
-      document.querySelector('[mindar-image-target]').addEventListener('mindar-image-target-found', function() {
-        var target = document.getElementById("target");
-        target.setAttribute('visible', true); // Show WebAR content
-      });
-    });
-  </script>
-</body>
+      </a-entity>
+      <a-text style="color: #f00">Ver1.0.4</a-text>
+    </a-scene>
+  </body>
 </html>
