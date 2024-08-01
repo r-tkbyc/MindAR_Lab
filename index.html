@@ -10,7 +10,7 @@
     .modal {
       display: flex;
       position: fixed;
-      z-index: 1000;
+      z-index: 1;
       left: 0;
       top: 0;
       width: 100%;
@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <a-scene id="scene" mindar-image="imageTargetSrc: ./assets/card-example/card.mind" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+  <a-scene id="scene" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
     <a-assets>
       <img id="card" src="./assets/card-example/card.png" />
       <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
@@ -70,7 +70,7 @@
         animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer>
       </a-gltf-model>
     </a-entity>
-    <a-text style="color: #f00">Ver1.0.6</a-text>
+    <a-text style="color: #f00">Ver1.0.7</a-text>
   </a-scene>
 
   <script>
@@ -79,25 +79,22 @@
       var startButton = document.getElementById("startButton");
       var scene = document.getElementById("scene");
       var target = document.getElementById("target");
-      var mindarImage = document.querySelector('[mindar-image]');
+
+      // Initially hide the scene
+      scene.style.display = "none";
 
       // Show the modal on page load
       modal.style.display = "flex";
 
-      // Stop MindAR marker reading
-      mindarImage.setAttribute('enabled', false);
-
       // Enable marker reading when OK button is clicked
       startButton.addEventListener('click', function() {
         modal.style.display = "none"; // Hide modal
-        mindarImage.setAttribute('enabled', true); // Start MindAR marker reading
+        scene.style.display = "block"; // Show scene
       });
 
       // When marker is detected, start WebAR
       document.querySelector('[mindar-image-target]').addEventListener('mindar-image-target-found', function() {
-        if (target.getAttribute('visible') === false) {
-          target.setAttribute('visible', true); // Show WebAR content
-        }
+        target.setAttribute('visible', true); // Show WebAR content
       });
     });
   </script>
