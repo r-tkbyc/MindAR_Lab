@@ -36,7 +36,9 @@
     </style>
   </head>
   <body>
-    <a-scene mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind;" 
+             color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" 
+             vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
         <img id="card" src="./assets/card-example/card.png" />
         <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
@@ -47,10 +49,10 @@
       <a-entity mindar-image-target="targetIndex: 0">
         <a-plane src="#card" position="0 0 0" height="1" width="0.552" rotation="0 0 90"></a-plane>
         <a-gltf-model id="item" rotation="90 0 0" position="0 0 0.1" scale="0.05 0.05 0.05" src="#avatarModel" animation-mixer></a-gltf-model>
-        <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065"></a-video>
+        <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065" loop="true"></a-video>
       </a-entity>
 
-      <a-text class="color-red">Ver1.0.1</a-text>
+      <a-text class="color-red">Ver1.0.2</a-text>
     </a-scene>
 
     <button id="btn-start" class="btn">Start</button>
