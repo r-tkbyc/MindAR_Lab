@@ -8,7 +8,7 @@
   <style>
     /* Modal styles */
     .modal {
-      display: none;
+      display: flex;
       position: fixed;
       z-index: 1;
       left: 0;
@@ -23,25 +23,10 @@
 
     .modal-content {
       background-color: #fefefe;
-      margin: 15% auto;
       padding: 20px;
       border: 1px solid #888;
       width: 80%;
       text-align: center;
-    }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
     }
 
     .ok-button {
@@ -56,15 +41,19 @@
       margin: 4px 2px;
       cursor: pointer;
     }
+
+    .ok-button:disabled {
+      background-color: #ccc; /* Grey */
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
   <!-- Modal HTML -->
   <div id="myModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Marker detected! Click OK to start the WebAR experience.</p>
-      <button class="ok-button">OK</button>
+      <p>Click OK to start scanning for the marker.</p>
+      <button id="startButton" class="ok-button">OK</button>
     </div>
   </div>
 
@@ -75,55 +64,38 @@
     </a-assets>
 
     <a-camera id="camera" position="0 0 0" look-controls="enabled: false"></a-camera>
-    <a-entity id="target" mindar-image-target="targetIndex: 0">
+    <a-entity id="target" mindar-image-target="targetIndex: 0" visible="false">
       <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
       <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel"
         animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer>
       </a-gltf-model>
     </a-entity>
-    <a-text style="color: #f00">Ver1.0.2</a-text>
+    <a-text style="color: #f00">Ver1.0.4</a-text>
   </a-scene>
 
   <script>
-    // JavaScript to handle modal and WebAR start
     document.addEventListener('DOMContentLoaded', function() {
       var modal = document.getElementById("myModal");
-      var closeBtn = document.querySelector(".close");
-      var okBtn = document.querySelector(".ok-button");
+      var startButton = document.getElementById("startButton");
       var target = document.getElementById("target");
 
-      // Function to show modal
-      function showModal() {
-        modal.style.display = "flex";
-      }
+      // Show the modal on page load
+      modal.style.display = "flex";
 
-      // Function to start WebAR and hide modal
-      function startWebAR() {
-        modal.style.display = "none";
-        target.setAttribute('visible', true);
-      }
+      // Enable marker reading when OK button is clicked
+      startButton.addEventListener('click', function() {
+        modal.style.display = "none"; // Hide modal
+        target.setAttribute('visible', true); // Show the target
+      });
 
-      // When marker is detected, show modal
+      // When marker is detected, start WebAR
       document.querySelector('[mindar-image-target]').addEventListener('mindar-image-target-found', function() {
-        showModal();
-      });
-
-      // When OK button is clicked, start WebAR
-      okBtn.addEventListener('click', function() {
-        startWebAR();
-      });
-
-      // When close button is clicked, hide modal
-      closeBtn.addEventListener('click', function() {
-        modal.style.display = "none";
-      });
-
-      // Close modal if clicked outside
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
+        if (target.getAttribute('visible') === true) {
+          // WebAR content is already visible
+          return;
         }
-      };
+        target.setAttribute('visible', true); // Show WebAR content
+      });
     });
   </script>
 </body>
