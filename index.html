@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <a-scene mindar-image="imageTargetSrc: ./assets/card-example/card.mind" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+  <a-scene id="scene" mindar-image="imageTargetSrc: ./assets/card-example/card.mind" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
     <a-assets>
       <img id="card" src="./assets/card-example/card.png" />
       <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
@@ -70,31 +70,34 @@
         animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer>
       </a-gltf-model>
     </a-entity>
-    <a-text style="color: #f00">Ver1.0.4</a-text>
+    <a-text style="color: #f00">Ver1.0.5</a-text>
   </a-scene>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var modal = document.getElementById("myModal");
       var startButton = document.getElementById("startButton");
+      var scene = document.getElementById("scene");
       var target = document.getElementById("target");
+      var mindarImage = document.querySelector('[mindar-image]');
 
       // Show the modal on page load
       modal.style.display = "flex";
 
+      // Stop MindAR marker reading
+      mindarImage.setAttribute('enabled', false);
+
       // Enable marker reading when OK button is clicked
       startButton.addEventListener('click', function() {
         modal.style.display = "none"; // Hide modal
-        target.setAttribute('visible', true); // Show the target
+        mindarImage.setAttribute('enabled', true); // Start MindAR marker reading
       });
 
       // When marker is detected, start WebAR
       document.querySelector('[mindar-image-target]').addEventListener('mindar-image-target-found', function() {
-        if (target.getAttribute('visible') === true) {
-          // WebAR content is already visible
-          return;
+        if (target.getAttribute('visible') === false) {
+          target.setAttribute('visible', true); // Show WebAR content
         }
-        target.setAttribute('visible', true); // Show WebAR content
       });
     });
   </script>
