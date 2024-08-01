@@ -9,7 +9,7 @@
     <a-scene mindar-image="imageTargetSrc: ./assets/card-example/card.mind" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
         <img id="card" src="./assets/card-example/card.png">
-        <video id="video" src="./assets/card-example/card.mp4" loop></video>
+        <video id="video" src="./assets/card-example/card.mp4" autoplay loop="true"></video>
         <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
       </a-assets>
 
@@ -20,7 +20,7 @@
         <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
         animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer>
       </a-entity>
-      <a-text style="color: #f00">Ver1.0.4</a-text>
+      <a-text style="color: #f00">Ver1.0.5</a-text>
     </a-scene>
   </body>
 </html>
