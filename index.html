@@ -65,7 +65,7 @@
         animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer>
       </a-gltf-model>
     </a-entity>
-    <a-text style="color: #f00">Ver1.0.8</a-text>
+    <a-text style="color: #f00">Ver1.0.9</a-text>
   </a-scene>
 
   <script>
@@ -73,8 +73,9 @@
       var modal = document.getElementById("myModal");
       var startButton = document.getElementById("startButton");
       var scene = document.getElementById("scene");
+      var camera = document.getElementById("camera");
       var mindarImage = document.querySelector('[mindar-image]');
-      
+
       // Initially hide the scene
       scene.style.display = "none";
 
@@ -86,8 +87,12 @@
         modal.style.display = "none"; // Hide modal
         scene.style.display = "block"; // Show scene
 
-        // Ensure MindAR starts scanning
+        // Ensure the scene and camera are fully initialized
         setTimeout(() => {
+          // Initialize camera if needed
+          camera.setAttribute('active', true);
+          
+          // Ensure MindAR starts scanning
           mindarImage.setAttribute('enabled', true); // Enable MindAR component
         }, 500); // Wait a bit for the scene to fully render
       });
