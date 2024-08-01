@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
@@ -21,4 +21,135 @@
       <a-text style="color: #f00">Ver1.0.4</a-text>
     </a-scene>
   </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+  <style>
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      text-align: center;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .ok-button {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Modal HTML -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Marker detected! Click OK to start the WebAR experience.</p>
+      <button class="ok-button">OK</button>
+    </div>
+  </div>
+
+  <a-scene mindar-image="imageTargetSrc: ./assets/card-example/card.mind" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-assets>
+      <img id="card" src="./assets/card-example/card.png" />
+      <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
+    </a-assets>
+
+    <a-camera id="camera" position="0 0 0" look-controls="enabled: false"></a-camera>
+    <a-entity id="target" mindar-image-target="targetIndex: 0">
+      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+      <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel"
+        animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer>
+      </a-gltf-model>
+    </a-entity>
+    <a-text style="color: #f00">Ver1.0.0</a-text>
+  </a-scene>
+
+  <script>
+    // JavaScript to handle modal and WebAR start
+    document.addEventListener('DOMContentLoaded', function() {
+      var modal = document.getElementById("myModal");
+      var closeBtn = document.querySelector(".close");
+      var okBtn = document.querySelector(".ok-button");
+      var target = document.getElementById("target");
+
+      // Function to show modal
+      function showModal() {
+        modal.style.display = "flex";
+      }
+
+      // Function to start WebAR and hide modal
+      function startWebAR() {
+        modal.style.display = "none";
+        target.setAttribute('visible', true);
+      }
+
+      // When marker is detected, show modal
+      document.querySelector('[mindar-image-target]').addEventListener('mindar-image-target-found', function() {
+        showModal();
+      });
+
+      // When OK button is clicked, start WebAR
+      okBtn.addEventListener('click', function() {
+        startWebAR();
+      });
+
+      // When close button is clicked, hide modal
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = "none";
+      });
+
+      // Close modal if clicked outside
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    });
+  </script>
+</body>
 </html>
