@@ -41,11 +41,6 @@
       margin: 4px 2px;
       cursor: pointer;
     }
-
-    .ok-button:disabled {
-      background-color: #ccc; /* Grey */
-      cursor: not-allowed;
-    }
   </style>
 </head>
 <body>
@@ -70,7 +65,7 @@
         animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer>
       </a-gltf-model>
     </a-entity>
-    <a-text style="color: #f00">Ver1.0.7</a-text>
+    <a-text style="color: #f00">Ver1.0.8</a-text>
   </a-scene>
 
   <script>
@@ -78,8 +73,8 @@
       var modal = document.getElementById("myModal");
       var startButton = document.getElementById("startButton");
       var scene = document.getElementById("scene");
-      var target = document.getElementById("target");
-
+      var mindarImage = document.querySelector('[mindar-image]');
+      
       // Initially hide the scene
       scene.style.display = "none";
 
@@ -90,10 +85,16 @@
       startButton.addEventListener('click', function() {
         modal.style.display = "none"; // Hide modal
         scene.style.display = "block"; // Show scene
+
+        // Ensure MindAR starts scanning
+        setTimeout(() => {
+          mindarImage.setAttribute('enabled', true); // Enable MindAR component
+        }, 500); // Wait a bit for the scene to fully render
       });
 
       // When marker is detected, start WebAR
       document.querySelector('[mindar-image-target]').addEventListener('mindar-image-target-found', function() {
+        var target = document.getElementById("target");
         target.setAttribute('visible', true); // Show WebAR content
       });
     });
