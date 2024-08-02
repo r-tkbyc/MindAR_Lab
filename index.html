@@ -1,96 +1,106 @@
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
-    <style>
-      /* モーダルのスタイル */
-      .modal {
-        display: none; /* デフォルトは非表示 */
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-        padding-top: 60px;
-      }
-      .modal-content {
-        background-color: #fefefe;
-        margin: 5% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-      }
-      .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-      }
-      .close:hover,
-      .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- モーダル -->
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>AR体験を開始するには、以下のボタンをクリックしてください。</p>
-        <button id="startButton">AR開始</button>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Experience</title>
+  <style>
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+      padding-top: 60px;
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+</head>
+<body>
+  <!-- Modal structure -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Click the button below to start the AR experience.</p>
+      <button id="startARButton">Start AR</button>
     </div>
+  </div>
 
-    <a-scene id="arScene" style="display: none;" mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind" 
-             color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" 
-             vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-      <a-assets>
-        <img id="card" src="./assets/card-example/card.png">
-        <video id="video" autoplay loop="true" src="./assets/card-example/card.mp4"></video>
-        <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
-      </a-assets>
+  <!-- A-Frame scene -->
+  <a-scene id="ar-scene" mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind" 
+           color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" 
+           vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" style="display: none;">
+    <a-assets>
+      <img id="card" src="./assets/card-example/card.png">
+      <video id="video" autoplay loop="true" src="./assets/card-example/card.mp4"></video>
+      <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
+    </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065"></a-video>
-        <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
-                      animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer></a-gltf-model>
-      </a-entity>
-      <a-text style="color: #f00">Ver1.0.2</a-text>
-    </a-scene>
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <a-entity mindar-image-target="targetIndex: 0">
+      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+      <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065"></a-video>
+      <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
+                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer></a-gltf-model>
+    </a-entity>
+    <a-text style="color: #f00">Ver1.0.3</a-text>
+  </a-scene>
 
-    <script>
-      // モーダルの取得
-      var modal = document.getElementById("myModal");
-      var btn = document.getElementById("startButton");
-      var span = document.getElementsByClassName("close")[0];
+  <script>
+    // Get modal elements
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("startARButton");
+    var span = document.getElementsByClassName("close")[0];
 
-      // モーダルを表示
-      window.onload = function() {
-        modal.style.display = "block";
-      }
+    // Display the modal on page load
+    window.onload = function() {
+      modal.style.display = "block";
+    }
 
-      // モーダルを閉じる
-      span.onclick = function() {
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks the button, start the AR experience
+    btn.onclick = function() {
+      modal.style.display = "none";
+      document.getElementById("ar-scene").style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
         modal.style.display = "none";
       }
-
-      // ボタンがクリックされたらモーダルを閉じてAR体験を開始
-      btn.onclick = function() {
-        modal.style.display = "none";
-        document.getElementById("arScene").style.display = "block";
-        document.getElementById("arScene").components['mindar-image'].start();
-      }
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html>
