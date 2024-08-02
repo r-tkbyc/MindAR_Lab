@@ -282,6 +282,7 @@
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
       <a-entity myTarget mindar-image-target="targetIndex: 0">
         <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
         <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065"></a-video>
@@ -290,5 +291,19 @@
       </a-entity>
       <a-text style="color: #f00">Ver1.0.3</a-text>
     </a-scene>
+
+    <div class="mindar-ui-overlay mindar-ui-loading hidden">
+      <div class="loader"></div>
+    </div>
+    <div class="mindar-ui-overlay mindar-ui-compatibility hidden">
+      <div class="content">
+        <h1>Failed to launch :(</h1>
+        <p>Looks like your device/browser is not compatible.</p>
+        <br><br>
+        <p>Please try the following recommended browsers:</p>
+        <p>For Android device - Chrome</p>
+        <p>For iOS device - Safari</p>
+      </div>
+    </div>
   </body>
 </html>
