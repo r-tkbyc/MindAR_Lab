@@ -1,0 +1,488 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta aframe-injected="" name="mobile-web-app-capable" content="yes">
+  <meta aframe-injected="" name="theme-color" content="black">
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+
+  <script>
+    // const hanaShowInfo = () => {
+    //   let y = 0;
+    //   const hanaCountryButton0 = document.querySelector("#hana-country-button0");
+    //   const hanaCountryButton1 = document.querySelector("#hana-country-button1");
+    //   const hanaCountryButton2 = document.querySelector("#hana-country-button2");
+    //   const hanaCountryButton3 = document.querySelector("#hana-country-button3");
+    //   const hanaText = document.querySelector("#hana-text");
+
+    //   hanaCountryButton0.setAttribute("visible", true);
+    //   setTimeout(() => {
+    //     hanaCountryButton1.setAttribute("visible", true);
+    //   }, 300);
+    //   setTimeout(() => {
+    //     hanaCountryButton2.setAttribute("visible", true);
+    //   }, 600);
+    //   setTimeout(() => {
+    //     hanaCountryButton3.setAttribute("visible", true);
+    //   }, 900);
+    //   setTimeout(() => {
+    //     hanaText.setAttribute("visible", true);
+    //   }, 1200);
+
+    //   let currentTab = '';
+    //   hanaCountryButton0.addEventListener('click', function(evt) {
+    //     hanaText.setAttribute("value", "Go to Japan Wiki");
+    //     currentTab = 'country0';
+    //     if (currentTab === 'country0') {
+    //       window.location.href = "https://ja.wikipedia.org/wiki/%E8%8A%B1";
+    //     }
+    //   });
+    //   hanaCountryButton1.addEventListener('click', function(evt) {
+    //     hanaText.setAttribute("value", "Go to China wiki");
+    //     currentTab = 'country1';
+    //     if (currentTab === 'country1') {
+    //       window.location.href = "https://zh.wikipedia.org/wiki/%E8%8A%B1";
+    //     }
+    //   });
+    //   hanaCountryButton2.addEventListener('click', function(evt) {
+    //     hanaText.setAttribute("value", "Go to Taiwan Wiki");
+    //     currentTab = 'country2';
+    //     if (currentTab === 'country2') {
+    //       window.location.href = "https://zh.wikipedia.org/wiki/%E8%8A%B1";
+    //     }
+    //   });
+    //   hanaCountryButton3.addEventListener('click', function(evt) {
+    //     hanaText.setAttribute("value", "Go to America Wiki");
+    //     currentTab = 'country3';
+    //     if (currentTab === 'country3') {
+    //       window.location.href = "https://en.wikipedia.org/wiki/Flower";
+    //     }
+    //   });
+    // }
+
+    // const hanaShowImage = (done) => {
+    //   const hanaImagePanel = document.querySelector("#hana-image-panel");
+    //   const hanaImageLeftButton = document.querySelector("#hana-image-left-button");
+    //   const hanaImageRightButton = document.querySelector("#hana-image-right-button");
+    //   const hanaStartImageItem = document.querySelector("#hana-start-image-item");
+
+    //   let y = 0;
+    //   let scale = 0.001; //
+    //   let currentItem = 0;
+
+    //   const showImageItem = (item) => {
+    //     for (let i = 0; i <= 3; i++) {
+    //       document.querySelector("#hana-image-item" + i).setAttribute(
+    //         "visible", i === item);
+    //     }
+    //   }
+    //   const id = setInterval(() => {
+    //     y += 0.01;
+    //     scale += (1 - 0.001) / (0.3 / 0.01); //
+    //     if (y >= 0.3) {
+    //       clearInterval(id);
+    //       hanaImageLeftButton.setAttribute("visible", true);
+    //       hanaImageRightButton.setAttribute("visible", true);
+    //       hanaImageLeftButton.addEventListener('click', () => {
+    //         currentItem = (currentItem - 1 + 4) % 4;
+    //         showImageItem(currentItem);
+    //       });
+    //       hanaImageRightButton.addEventListener('click', () => {
+    //         currentItem = (currentItem + 1) % 4;
+    //         showImageItem(currentItem);
+    //       });
+
+    //       hanaStartImageItem.addEventListener('click', () => {
+    //         startImageItem.setAttribute("visible", true);
+    //       });
+
+    //       setTimeout(() => {
+    //         done();
+    //       }, 500);
+    //     }
+
+    //     hanaImagePanel.setAttribute("visible", true);
+    //     hanaImagePanel.setAttribute("position", "0 " + y + " -0.01");
+    //     hanaImagePanel.setAttribute("scale", `${scale} ${scale} ${scale}`); //
+    //   }, 10);
+    // }
+
+    const hanaShowAvatar = (onDone) => {
+      const hanaAvatar = document.querySelector("#hana-avatar");
+      let z = 0;
+      let scale = 0.07;
+
+      const id = setInterval(() => {
+        z += 0.008;
+        scale += (0.08 - 0.001) / (0.2 / 0.008);  // 位置のアニメーションと同期させるためのスケール増分
+
+        if (z >= 0.2) {
+          clearInterval(id);
+          onDone();
+        }
+
+        hanaAvatar.setAttribute("position", `0 -0.085 ${z}`);
+        hanaAvatar.setAttribute("scale", `${scale} ${scale} ${scale}`);
+      }, 10);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById("modal");
+      const okButton = document.getElementById("ok-button");
+
+      const showModal = () => {
+        modal.style.display = "block";
+      };
+
+      const startAR = () => {
+        modal.style.display = "none";
+        hanaShowAvatar(() => {
+          // setTimeout(() => {
+          //   hanaShowImage(() => {
+          //     setTimeout(() => {
+          //       hanaShowInfo();
+          //     }, 100);
+          //   });
+          // }, 100);
+        });
+      };
+
+      okButton.addEventListener('click', startAR);
+
+      AFRAME.registerComponent('hanatarget', {
+        init: function() {
+          this.el.addEventListener('targetFound', event => {
+            console.log("target found");
+            showModal();
+          });
+          this.el.addEventListener('targetLost', event => {
+            console.log("target lost");
+          });
+        }
+      });
+    });
+  </script>
+
+  <style>
+    body {
+        margin: 0;
+    }
+    .example-container {
+      overflow: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    #example-scanning-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: transparent;
+      z-index: 2;
+    }
+    @media (min-aspect-ratio: 1/1) {
+      #example-scanning-overlay .inner {
+        width: 50vh;
+        height: 50vh;
+      }
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #example-scanning-overlay .inner {
+        width: 80vw;
+        height: 80vw;
+      }
+    }
+    #example-scanning-overlay .inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background:
+        linear-gradient(to right, white 10px, transparent 10px) 0 0,
+        linear-gradient(to right, white 10px, transparent 10px) 0 100%,
+        linear-gradient(to left, white 10px, transparent 10px) 100% 0,
+        linear-gradient(to left, white 10px, transparent 10px) 100% 100%,
+        linear-gradient(to bottom, white 10px, transparent 10px) 0 0,
+        linear-gradient(to bottom, white 10px, transparent 10px) 100% 0,
+        linear-gradient(to top, white 10px, transparent 10px) 0 100%,
+        linear-gradient(to top, white 10px, transparent 10px) 100% 100%;
+      background-repeat: no-repeat;
+      background-size: 40px 40px;
+    }
+    #example-scanning-overlay.hidden {
+      display: none;
+    }
+    #example-scanning-overlay img {
+      opacity: 0.6;
+      width: 90%;
+      align-self: center;
+    }
+    #example-scanning-overlay .inner .scanline {
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      background: white;
+      animation: move 2s linear infinite;
+    }
+    @keyframes move {
+      0%, 100% { top: 0% }
+      50% { top: calc(100% - 10px) }
+    }
+  </style>
+
+  <style>
+    .mindar-ui-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: transparent;
+      z-index: 2
+    }
+    .mindar-ui-overlay.hidden {
+      display: none
+    }
+    .mindar-ui-loading .loader {
+      border: 16px solid #222;
+      border-top: 16px solid white;
+      opacity: .8;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite
+    }
+    @keyframes spin {
+      0% { transform: rotate(0) }
+      to { transform: rotate(360deg) }
+    }
+    .mindar-ui-compatibility .content {
+      background: black;
+      color: #fff;
+      opacity: .8;
+      text-align: center;
+      margin: 20px;
+      padding: 20px;
+      min-height: 50vh
+    }
+    @media (min-aspect-ratio: 1/1) {
+      .mindar-ui-scanning .scanning {
+        width: 50vh;
+        height: 50vh
+      }
+    }
+    @media (max-aspect-ratio: 1/1) {
+      .mindar-ui-scanning .scanning {
+        width: 80vw;
+        height: 80vw
+      }
+    }
+    .mindar-ui-scanning .scanning .inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      opacity: .8;
+      background:
+        linear-gradient(to right, white 10px, transparent 10px) 0 0,
+        linear-gradient(to right, white 10px, transparent 10px) 0 100%,
+        linear-gradient(to left, white 10px, transparent 10px) 100% 0,
+        linear-gradient(to left, white 10px, transparent 10px) 100% 100%,
+        linear-gradient(to bottom, white 10px, transparent 10px) 0 0,
+        linear-gradient(to bottom, white 10px, transparent 10px) 100% 0,
+        linear-gradient(to top, white 10px, transparent 10px) 0 100%,
+        linear-gradient(to top, white 10px, transparent 10px) 100% 100%;
+      background-repeat: no-repeat;
+      background-size: 40px 40px
+    }
+    .mindar-ui-scanning .scanning .inner .scanline {
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      background: white;
+      animation: move 2s linear infinite
+    }
+    @keyframes move {
+      0%, to { top: 0% }
+      50% { top: calc(100% - 10px) }
+    }
+  </style>
+
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+      padding-top: 60px;
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+    .modal-img {
+      max-width: 100%;
+    }
+    .modal-button {
+      background-color: #f1e5ba;
+      display: block;
+      margin: 6% auto 0;
+      padding: 0.75rem 2rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 0.3rem;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="color: #f00;">Ver1.3.0</div>
+
+  <div class="example-container">
+    <div id="example-scanning-overlay" class="">
+      <div class="inner">
+        <img src="./assets/target/ScanningImageTarget.png">
+        <div class="scanline"></div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <!--span class="close">&times;</span-->
+        <img class="modal-img" src="./assets/images/modal.jpg" alt="">
+        <!--p>AR Experience is ready. Click OK to start.</p-->
+        <button id="ok-button" class="modal-button">OK</button>
+      </div>
+    </div>
+
+    <a-scene mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/target/targets.mind; showStats: false; uiScanning: #example-scanning-overlay;"
+    embedded="" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false"
+    inspector="" keyboard-shortcuts="" screenshot="">
+      <a-assets>
+        <img id="hana-icon-country0" src="./assets/images/icon-jpn.png">
+        <img id="hana-icon-country1" src="./assets/images/icon-chn.png">
+        <img id="hana-icon-country2" src="./assets/images/icon-twn.png">
+        <img id="hana-icon-country3" src="./assets/images/icon-usa.png">
+        <img id="hana-icon-left" src="./assets/images/left.png">
+        <img id="hana-icon-right" src="./assets/images/right.png">
+        <img id="hana-start-image" src="./assets/images/hana-lang-jpn.jpg">
+        <img id="hana-language1-image" src="./assets/images/hana-lang-chn.jpg">
+        <img id="hana-language2-image" src="./assets/images/hana-lang-twn.jpg">
+        <img id="hana-language3-image" src="./assets/images/hana-lang-usa.jpg">
+        <a-asset-item id="hana-avatarModel" src="./assets/model/model_hana.glb"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"
+      raycaster="far: 10000; objects: .clickable" camera="" rotation="" wasd-controls="">
+      </a-camera>
+
+      <a-entity hanatarget id="" mindar-image-target="targetIndex: 0">
+        <a-entity visible="false" id="hana-image-panel" position="0 0 -0.01">
+          <!-- <a-text value="Portfolio" color="black" align="center" width="2" position="0 0.4 0" text=""></a-text> -->
+          <a-entity id="hana-image-item0">
+            <a-image id="hana-start-image-item" class="clickable" src="#hana-start-image" alpha-test="0.5" position="0 0.3 0" height="0.552" width="1" material="" geometry=""></a-image>
+          </a-entity>
+          <a-entity id="hana-image-item1" visible="false">
+            <a-image class="clickable" src="#hana-language1-image" alpha-test="0.5" position="0 0.3 0" height="0.552" width="1" material="" geometry=""></a-image>
+          </a-entity>
+          <a-entity id="hana-image-item2" visible="false">
+            <a-image class="clickable" src="#hana-language2-image" alpha-test="0.5" position="0 0.3 0" height="0.552" width="1" material="" geometry=""></a-image>
+          </a-entity>
+          <a-entity id="hana-image-item3" visible="false">
+            <a-image class="clickable" src="#hana-language3-image" alpha-test="0.5" position="0 0.3 0" height="0.552" width="1" material="" geometry=""></a-image>
+          </a-entity>
+          <a-image visible="false" id="hana-image-left-button" class="clickable" src="#hana-icon-left" position="-0.65 0.3 0"
+          height="0.15" width="0.15" material="" geometry=""></a-image>
+          <a-image visible="false" id="hana-image-right-button" class="clickable" src="#hana-icon-right" position="0.65 0.3 0"
+          height="0.15" width="0.15" material="" geometry=""></a-image>
+        </a-entity>
+
+        <a-image visible="false" id="hana-country-button0" class="clickable" src="#hana-icon-country0" position="-0.42 1 0"
+        height="0.15" width="0.15" animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+        material="" geometry=""></a-image>
+
+        <a-image visible="false" id="hana-country-button1" class="clickable" src="#hana-icon-country1" position="-0.14 1 0"
+        height="0.15" width="0.15" animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+        material="" geometry=""></a-image>
+
+        <a-image visible="false" id="hana-country-button2" class="clickable" src="#hana-icon-country2" position="0.14 1 0"
+        height="0.15" width="0.15" animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+        material="" geometry=""></a-image>
+
+        <a-image visible="false" id="hana-country-button3" class="clickable" src="#hana-icon-country3" position="0.42 1 0"
+        height="0.15" width="0.15" animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+        material="" geometry=""></a-image>
+
+        <a-gltf-model id="hana-avatar" rotation="" position="0 -0.085 0" scale="0 0 0" src="#hana-avatarModel" gltf-model=""
+        animation="property: rotation; from: 0 -20 0; to: 0 20 0; dur: 2500; easing: easeInOutSine; loop: true; dir: alternate"></a-gltf-model>
+
+        <a-text visible="false" id="hana-text" class="clickable" value="Tap the flag. Go to Wikipedia." color="black" align="center" width="1"
+        position="0 -0.375 0" geometry="primitive:plane; height: 0.1; width: 1;" material="opacity: 0.5" text=""></a-text>
+      </a-entity>
+
+      <canvas class="a-canvas" data-aframe-canvas="true" data-engine="three.js r147" width="54" height="960"></canvas>
+      <div class="a-loader-title" style="display: none;"></div>
+      <a-entity light="" data-aframe-default-light="" aframe-injected=""></a-entity>
+      <a-entity light="" position="" data-aframe-default-light="" aframe-injected=""></a-entity>
+    </a-scene>
+    <video autoplay="" muted="" playsinline="" width="640" height="480" style="position: absolute; top: 0px; left: -653px; z-index: -2; width: 1364px; height: 1023px;"></video>
+  </div>
+
+  <div class="mindar-ui-overlay mindar-ui-loading hidden">
+    <div class="loader">
+    </div>
+  </div>
+  <div class="mindar-ui-overlay mindar-ui-compatibility hidden">
+    <div class="content">
+      <h1>Failed to launch :(</h1>
+      <p>
+        Looks like your device/browser is not compatible.
+      </p>
+
+      <br>
+      <br>
+      <p>
+        Please try the following recommended browsers:
+      </p>
+      <p>
+        For Android device - Chrome
+      </p>
+      <p>
+        For iOS device - Safari
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>
