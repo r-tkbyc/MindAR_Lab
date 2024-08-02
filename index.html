@@ -1,270 +1,382 @@
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script> -->
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
-    <script>
-      const showAvatarModelr = (onDone) => {
-        const myAvatar = document.querySelector("#showAvatarModelr");
-        let z = 0;
-        let scale = 0.07;
 
-        const id = setInterval(() => {
-          z += 0.008;
-          scale += (0.08 - 0.001) / (0.2 / 0.008);  // 位置のアニメーションと同期させるためのスケール増分
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta aframe-injected="" name="mobile-web-app-capable" content="yes">
+  <meta aframe-injected="" name="theme-color" content="black">
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
 
-          if (z >= 0.2) {
-            clearInterval(id);
-            onDone();
-          }
+  <script>
+    // const hanaShowInfo = () => {
+    //   let y = 0;
+    //   const hanaCountryButton0 = document.querySelector("#hana-country-button0");
+    //   const hanaCountryButton1 = document.querySelector("#hana-country-button1");
+    //   const hanaCountryButton2 = document.querySelector("#hana-country-button2");
+    //   const hanaCountryButton3 = document.querySelector("#hana-country-button3");
+    //   const hanaText = document.querySelector("#hana-text");
 
-          myAvatar.setAttribute("position", `0 -0.085 ${z}`);
-          myAvatar.setAttribute("scale", `${scale} ${scale} ${scale}`);
-        }, 10);
-      }
+    //   hanaCountryButton0.setAttribute("visible", true);
+    //   setTimeout(() => {
+    //     hanaCountryButton1.setAttribute("visible", true);
+    //   }, 300);
+    //   setTimeout(() => {
+    //     hanaCountryButton2.setAttribute("visible", true);
+    //   }, 600);
+    //   setTimeout(() => {
+    //     hanaCountryButton3.setAttribute("visible", true);
+    //   }, 900);
+    //   setTimeout(() => {
+    //     hanaText.setAttribute("visible", true);
+    //   }, 1200);
 
-      document.addEventListener('DOMContentLoaded', () => {
-        const modal = document.getElementById("modal");
-        const okButton = document.getElementById("ok-button");
+    //   let currentTab = '';
+    //   hanaCountryButton0.addEventListener('click', function(evt) {
+    //     hanaText.setAttribute("value", "Go to Japan Wiki");
+    //     currentTab = 'country0';
+    //     if (currentTab === 'country0') {
+    //       window.location.href = "https://ja.wikipedia.org/wiki/%E8%8A%B1";
+    //     }
+    //   });
+    //   hanaCountryButton1.addEventListener('click', function(evt) {
+    //     hanaText.setAttribute("value", "Go to China wiki");
+    //     currentTab = 'country1';
+    //     if (currentTab === 'country1') {
+    //       window.location.href = "https://zh.wikipedia.org/wiki/%E8%8A%B1";
+    //     }
+    //   });
+    //   hanaCountryButton2.addEventListener('click', function(evt) {
+    //     hanaText.setAttribute("value", "Go to Taiwan Wiki");
+    //     currentTab = 'country2';
+    //     if (currentTab === 'country2') {
+    //       window.location.href = "https://zh.wikipedia.org/wiki/%E8%8A%B1";
+    //     }
+    //   });
+    //   hanaCountryButton3.addEventListener('click', function(evt) {
+    //     hanaText.setAttribute("value", "Go to America Wiki");
+    //     currentTab = 'country3';
+    //     if (currentTab === 'country3') {
+    //       window.location.href = "https://en.wikipedia.org/wiki/Flower";
+    //     }
+    //   });
+    // }
 
-        const showModal = () => {
-          modal.style.display = "block";
-        };
+    // const hanaShowImage = (done) => {
+    //   const hanaImagePanel = document.querySelector("#hana-image-panel");
+    //   const hanaImageLeftButton = document.querySelector("#hana-image-left-button");
+    //   const hanaImageRightButton = document.querySelector("#hana-image-right-button");
+    //   const hanaStartImageItem = document.querySelector("#hana-start-image-item");
 
-        const startAR = () => {
-          modal.style.display = "none";
-          showAvatarModelr(() => {
-            // setTimeout(() => {
-            //   hanaShowImage(() => {
-            //     setTimeout(() => {
-            //       hanaShowInfo();
-            //     }, 100);
-            //   });
-            // }, 100);
-          });
-        };
+    //   let y = 0;
+    //   let scale = 0.001; //
+    //   let currentItem = 0;
 
-        okButton.addEventListener('click', startAR);
+    //   const showImageItem = (item) => {
+    //     for (let i = 0; i <= 3; i++) {
+    //       document.querySelector("#hana-image-item" + i).setAttribute(
+    //         "visible", i === item);
+    //     }
+    //   }
+    //   const id = setInterval(() => {
+    //     y += 0.01;
+    //     scale += (1 - 0.001) / (0.3 / 0.01); //
+    //     if (y >= 0.3) {
+    //       clearInterval(id);
+    //       hanaImageLeftButton.setAttribute("visible", true);
+    //       hanaImageRightButton.setAttribute("visible", true);
+    //       hanaImageLeftButton.addEventListener('click', () => {
+    //         currentItem = (currentItem - 1 + 4) % 4;
+    //         showImageItem(currentItem);
+    //       });
+    //       hanaImageRightButton.addEventListener('click', () => {
+    //         currentItem = (currentItem + 1) % 4;
+    //         showImageItem(currentItem);
+    //       });
 
-        AFRAME.registerComponent('myTarget', {
-          init: function() {
-            this.el.addEventListener('targetFound', event => {
-              console.log("target found");
-              showModal();
-            });
-            this.el.addEventListener('targetLost', event => {
-              console.log("target lost");
-            });
-          }
+    //       hanaStartImageItem.addEventListener('click', () => {
+    //         startImageItem.setAttribute("visible", true);
+    //       });
+
+    //       setTimeout(() => {
+    //         done();
+    //       }, 500);
+    //     }
+
+    //     hanaImagePanel.setAttribute("visible", true);
+    //     hanaImagePanel.setAttribute("position", "0 " + y + " -0.01");
+    //     hanaImagePanel.setAttribute("scale", `${scale} ${scale} ${scale}`); //
+    //   }, 10);
+    // }
+
+    const hanaShowAvatar = (onDone) => {
+      const hanaAvatar = document.querySelector("#hana-avatar");
+      let z = 0;
+      let scale = 0.07;
+
+      const id = setInterval(() => {
+        z += 0.008;
+        scale += (0.08 - 0.001) / (0.2 / 0.008);  // 位置のアニメーションと同期させるためのスケール増分
+
+        if (z >= 0.2) {
+          clearInterval(id);
+          onDone();
+        }
+
+        hanaAvatar.setAttribute("position", `0 -0.085 ${z}`);
+        hanaAvatar.setAttribute("scale", `${scale} ${scale} ${scale}`);
+      }, 10);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById("modal");
+      const okButton = document.getElementById("ok-button");
+
+      const showModal = () => {
+        modal.style.display = "block";
+      };
+
+      const startAR = () => {
+        modal.style.display = "none";
+        hanaShowAvatar(() => {
+          // setTimeout(() => {
+          //   hanaShowImage(() => {
+          //     setTimeout(() => {
+          //       hanaShowInfo();
+          //     }, 100);
+          //   });
+          // }, 100);
         });
+      };
+
+      okButton.addEventListener('click', startAR);
+
+      AFRAME.registerComponent('hanatarget', {
+        init: function() {
+          this.el.addEventListener('targetFound', event => {
+            console.log("target found");
+            showModal();
+          });
+          this.el.addEventListener('targetLost', event => {
+            console.log("target lost");
+          });
+        }
       });
-    </script>
+    });
+  </script>
 
-    <style>
-      body {
-          margin: 0;
-      }
-      .example-container {
-        overflow: hidden;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-      #example-scanning-overlay {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: transparent;
-        z-index: 2;
-      }
-      @media (min-aspect-ratio: 1/1) {
-        #example-scanning-overlay .inner {
-          width: 50vh;
-          height: 50vh;
-        }
-      }
-      @media (max-aspect-ratio: 1/1) {
-        #example-scanning-overlay .inner {
-          width: 80vw;
-          height: 80vw;
-        }
-      }
+  <style>
+    body {
+        margin: 0;
+    }
+    .example-container {
+      overflow: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    #example-scanning-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: transparent;
+      z-index: 2;
+    }
+    @media (min-aspect-ratio: 1/1) {
       #example-scanning-overlay .inner {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        background:
-          linear-gradient(to right, white 10px, transparent 10px) 0 0,
-          linear-gradient(to right, white 10px, transparent 10px) 0 100%,
-          linear-gradient(to left, white 10px, transparent 10px) 100% 0,
-          linear-gradient(to left, white 10px, transparent 10px) 100% 100%,
-          linear-gradient(to bottom, white 10px, transparent 10px) 0 0,
-          linear-gradient(to bottom, white 10px, transparent 10px) 100% 0,
-          linear-gradient(to top, white 10px, transparent 10px) 0 100%,
-          linear-gradient(to top, white 10px, transparent 10px) 100% 100%;
-        background-repeat: no-repeat;
-        background-size: 40px 40px;
+        width: 50vh;
+        height: 50vh;
       }
-      #example-scanning-overlay.hidden {
-        display: none;
+    }
+    @media (max-aspect-ratio: 1/1) {
+      #example-scanning-overlay .inner {
+        width: 80vw;
+        height: 80vw;
       }
-      #example-scanning-overlay img {
-        opacity: 0.6;
-        width: 90%;
-        align-self: center;
-      }
-      #example-scanning-overlay .inner .scanline {
-        position: absolute;
-        width: 100%;
-        height: 10px;
-        background: white;
-        animation: move 2s linear infinite;
-      }
-      @keyframes move {
-        0%, 100% { top: 0% }
-        50% { top: calc(100% - 10px) }
-      }
-    </style>
+    }
+    #example-scanning-overlay .inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background:
+        linear-gradient(to right, white 10px, transparent 10px) 0 0,
+        linear-gradient(to right, white 10px, transparent 10px) 0 100%,
+        linear-gradient(to left, white 10px, transparent 10px) 100% 0,
+        linear-gradient(to left, white 10px, transparent 10px) 100% 100%,
+        linear-gradient(to bottom, white 10px, transparent 10px) 0 0,
+        linear-gradient(to bottom, white 10px, transparent 10px) 100% 0,
+        linear-gradient(to top, white 10px, transparent 10px) 0 100%,
+        linear-gradient(to top, white 10px, transparent 10px) 100% 100%;
+      background-repeat: no-repeat;
+      background-size: 40px 40px;
+    }
+    #example-scanning-overlay.hidden {
+      display: none;
+    }
+    #example-scanning-overlay img {
+      opacity: 0.6;
+      width: 90%;
+      align-self: center;
+    }
+    #example-scanning-overlay .inner .scanline {
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      background: white;
+      animation: move 2s linear infinite;
+    }
+    @keyframes move {
+      0%, 100% { top: 0% }
+      50% { top: calc(100% - 10px) }
+    }
+  </style>
 
-    <style>
-      .mindar-ui-overlay {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: transparent;
-        z-index: 2
+  <style>
+    .mindar-ui-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: transparent;
+      z-index: 2
+    }
+    .mindar-ui-overlay.hidden {
+      display: none
+    }
+    .mindar-ui-loading .loader {
+      border: 16px solid #222;
+      border-top: 16px solid white;
+      opacity: .8;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite
+    }
+    @keyframes spin {
+      0% { transform: rotate(0) }
+      to { transform: rotate(360deg) }
+    }
+    .mindar-ui-compatibility .content {
+      background: black;
+      color: #fff;
+      opacity: .8;
+      text-align: center;
+      margin: 20px;
+      padding: 20px;
+      min-height: 50vh
+    }
+    @media (min-aspect-ratio: 1/1) {
+      .mindar-ui-scanning .scanning {
+        width: 50vh;
+        height: 50vh
       }
-      .mindar-ui-overlay.hidden {
-        display: none
+    }
+    @media (max-aspect-ratio: 1/1) {
+      .mindar-ui-scanning .scanning {
+        width: 80vw;
+        height: 80vw
       }
-      .mindar-ui-loading .loader {
-        border: 16px solid #222;
-        border-top: 16px solid white;
-        opacity: .8;
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-        animation: spin 2s linear infinite
-      }
-      @keyframes spin {
-        0% { transform: rotate(0) }
-        to { transform: rotate(360deg) }
-      }
-      .mindar-ui-compatibility .content {
-        background: black;
-        color: #fff;
-        opacity: .8;
-        text-align: center;
-        margin: 20px;
-        padding: 20px;
-        min-height: 50vh
-      }
-      @media (min-aspect-ratio: 1/1) {
-        .mindar-ui-scanning .scanning {
-          width: 50vh;
-          height: 50vh
-        }
-      }
-      @media (max-aspect-ratio: 1/1) {
-        .mindar-ui-scanning .scanning {
-          width: 80vw;
-          height: 80vw
-        }
-      }
-      .mindar-ui-scanning .scanning .inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        opacity: .8;
-        background:
-          linear-gradient(to right, white 10px, transparent 10px) 0 0,
-          linear-gradient(to right, white 10px, transparent 10px) 0 100%,
-          linear-gradient(to left, white 10px, transparent 10px) 100% 0,
-          linear-gradient(to left, white 10px, transparent 10px) 100% 100%,
-          linear-gradient(to bottom, white 10px, transparent 10px) 0 0,
-          linear-gradient(to bottom, white 10px, transparent 10px) 100% 0,
-          linear-gradient(to top, white 10px, transparent 10px) 0 100%,
-          linear-gradient(to top, white 10px, transparent 10px) 100% 100%;
-        background-repeat: no-repeat;
-        background-size: 40px 40px
-      }
-      .mindar-ui-scanning .scanning .inner .scanline {
-        position: absolute;
-        width: 100%;
-        height: 10px;
-        background: white;
-        animation: move 2s linear infinite
-      }
-      @keyframes move {
-        0%, to { top: 0% }
-        50% { top: calc(100% - 10px) }
-      }
-    </style>
+    }
+    .mindar-ui-scanning .scanning .inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      opacity: .8;
+      background:
+        linear-gradient(to right, white 10px, transparent 10px) 0 0,
+        linear-gradient(to right, white 10px, transparent 10px) 0 100%,
+        linear-gradient(to left, white 10px, transparent 10px) 100% 0,
+        linear-gradient(to left, white 10px, transparent 10px) 100% 100%,
+        linear-gradient(to bottom, white 10px, transparent 10px) 0 0,
+        linear-gradient(to bottom, white 10px, transparent 10px) 100% 0,
+        linear-gradient(to top, white 10px, transparent 10px) 0 100%,
+        linear-gradient(to top, white 10px, transparent 10px) 100% 100%;
+      background-repeat: no-repeat;
+      background-size: 40px 40px
+    }
+    .mindar-ui-scanning .scanning .inner .scanline {
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      background: white;
+      animation: move 2s linear infinite
+    }
+    @keyframes move {
+      0%, to { top: 0% }
+      50% { top: calc(100% - 10px) }
+    }
+  </style>
 
-    <style>
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-        padding-top: 60px;
-      }
-      .modal-content {
-        background-color: #fefefe;
-        margin: 5% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-      }
-      .modal-img {
-        max-width: 100%;
-      }
-      .modal-button {
-        background-color: #f1e5ba;
-        display: block;
-        margin: 6% auto 0;
-        padding: 0.75rem 2rem;
-        font-size: 1.5rem;
-        font-weight: 600;
-        border: none;
-        border-radius: 0.3rem;
-      }
-      .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-      }
-      .close:hover,
-      .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-      }
-    </style>
-  </head>
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+      padding-top: 60px;
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+    .modal-img {
+      max-width: 100%;
+    }
+    .modal-button {
+      background-color: #f1e5ba;
+      display: block;
+      margin: 6% auto 0;
+      padding: 0.75rem 2rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 0.3rem;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
 
-  <body>
+<body>
+  <div style="color: #f00;">Ver1.3.0</div>
+
+  <div class="example-container">
+    <div id="example-scanning-overlay" class="">
+      <div class="inner">
+        <img src="./assets/target/ScanningImageTarget.png">
+        <div class="scanline"></div>
+      </div>
+    </div>
+
     <div id="modal" class="modal">
       <div class="modal-content">
         <!--span class="close">&times;</span-->
@@ -274,7 +386,67 @@
       </div>
     </div>
 
-    <a-scene mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind" 
+    <a-scene mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind; showStats: false; uiScanning: #example-scanning-overlay;"
+    embedded="" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false"
+    inspector="" keyboard-shortcuts="" screenshot="">
+      <a-assets>
+        <img id="card" src="./assets/card-example/card.png">
+        <video id="video" autoplay loop="true" src="./assets/card-example/card.mp4"></video>
+        <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"
+      raycaster="far: 10000; objects: .clickable" camera="" rotation="" wasd-controls="">
+      </a-camera>
+
+      <a-entity hanatarget id="" mindar-image-target="targetIndex: 0">
+        <a-entity visible="false" id="hana-avatar" position="0 0 -0.01">
+          <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+          <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065"></a-video>
+          <a-gltf-model id="showAvatarModel" rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
+                        animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer></a-gltf-model>
+        </a-entity>
+      </a-entity>
+
+      <canvas class="a-canvas" data-aframe-canvas="true" data-engine="three.js r147" width="54" height="960"></canvas>
+      <div class="a-loader-title" style="display: none;"></div>
+      <a-entity light="" data-aframe-default-light="" aframe-injected=""></a-entity>
+      <a-entity light="" position="" data-aframe-default-light="" aframe-injected=""></a-entity>
+    </a-scene>
+    <video autoplay="" muted="" playsinline="" width="640" height="480" style="position: absolute; top: 0px; left: -653px; z-index: -2; width: 1364px; height: 1023px;"></video>
+  </div>
+
+  <div class="mindar-ui-overlay mindar-ui-loading hidden">
+    <div class="loader">
+    </div>
+  </div>
+  <div class="mindar-ui-overlay mindar-ui-compatibility hidden">
+    <div class="content">
+      <h1>Failed to launch :(</h1>
+      <p>
+        Looks like your device/browser is not compatible.
+      </p>
+
+      <br>
+      <br>
+      <p>
+        Please try the following recommended browsers:
+      </p>
+      <p>
+        For Android device - Chrome
+      </p>
+      <p>
+        For iOS device - Safari
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>
+
+
+<!-- 
+<a-scene mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind" 
              color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" 
              vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
@@ -291,21 +463,5 @@
         <a-gltf-model id="showAvatarModel" rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
                       animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer></a-gltf-model>
       </a-entity>
-      <a-text style="color: #f00">Ver1.0.4</a-text>
-    </a-scene>
-
-    <div class="mindar-ui-overlay mindar-ui-loading hidden">
-      <div class="loader"></div>
-    </div>
-    <div class="mindar-ui-overlay mindar-ui-compatibility hidden">
-      <div class="content">
-        <h1>Failed to launch :(</h1>
-        <p>Looks like your device/browser is not compatible.</p>
-        <br><br>
-        <p>Please try the following recommended browsers:</p>
-        <p>For Android device - Chrome</p>
-        <p>For iOS device - Safari</p>
-      </div>
-    </div>
-  </body>
-</html>
+      <a-text style="color: #f00">Ver1.0.4</a-text> 
+-->
