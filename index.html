@@ -7,108 +7,9 @@
   <meta aframe-injected="" name="theme-color" content="black">
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
 
   <script>
-    // const hanaShowInfo = () => {
-    //   let y = 0;
-    //   const hanaCountryButton0 = document.querySelector("#hana-country-button0");
-    //   const hanaCountryButton1 = document.querySelector("#hana-country-button1");
-    //   const hanaCountryButton2 = document.querySelector("#hana-country-button2");
-    //   const hanaCountryButton3 = document.querySelector("#hana-country-button3");
-    //   const hanaText = document.querySelector("#hana-text");
-
-    //   hanaCountryButton0.setAttribute("visible", true);
-    //   setTimeout(() => {
-    //     hanaCountryButton1.setAttribute("visible", true);
-    //   }, 300);
-    //   setTimeout(() => {
-    //     hanaCountryButton2.setAttribute("visible", true);
-    //   }, 600);
-    //   setTimeout(() => {
-    //     hanaCountryButton3.setAttribute("visible", true);
-    //   }, 900);
-    //   setTimeout(() => {
-    //     hanaText.setAttribute("visible", true);
-    //   }, 1200);
-
-    //   let currentTab = '';
-    //   hanaCountryButton0.addEventListener('click', function(evt) {
-    //     hanaText.setAttribute("value", "Go to Japan Wiki");
-    //     currentTab = 'country0';
-    //     if (currentTab === 'country0') {
-    //       window.location.href = "https://ja.wikipedia.org/wiki/%E8%8A%B1";
-    //     }
-    //   });
-    //   hanaCountryButton1.addEventListener('click', function(evt) {
-    //     hanaText.setAttribute("value", "Go to China wiki");
-    //     currentTab = 'country1';
-    //     if (currentTab === 'country1') {
-    //       window.location.href = "https://zh.wikipedia.org/wiki/%E8%8A%B1";
-    //     }
-    //   });
-    //   hanaCountryButton2.addEventListener('click', function(evt) {
-    //     hanaText.setAttribute("value", "Go to Taiwan Wiki");
-    //     currentTab = 'country2';
-    //     if (currentTab === 'country2') {
-    //       window.location.href = "https://zh.wikipedia.org/wiki/%E8%8A%B1";
-    //     }
-    //   });
-    //   hanaCountryButton3.addEventListener('click', function(evt) {
-    //     hanaText.setAttribute("value", "Go to America Wiki");
-    //     currentTab = 'country3';
-    //     if (currentTab === 'country3') {
-    //       window.location.href = "https://en.wikipedia.org/wiki/Flower";
-    //     }
-    //   });
-    // }
-
-    // const hanaShowImage = (done) => {
-    //   const hanaImagePanel = document.querySelector("#hana-image-panel");
-    //   const hanaImageLeftButton = document.querySelector("#hana-image-left-button");
-    //   const hanaImageRightButton = document.querySelector("#hana-image-right-button");
-    //   const hanaStartImageItem = document.querySelector("#hana-start-image-item");
-
-    //   let y = 0;
-    //   let scale = 0.001; //
-    //   let currentItem = 0;
-
-    //   const showImageItem = (item) => {
-    //     for (let i = 0; i <= 3; i++) {
-    //       document.querySelector("#hana-image-item" + i).setAttribute(
-    //         "visible", i === item);
-    //     }
-    //   }
-    //   const id = setInterval(() => {
-    //     y += 0.01;
-    //     scale += (1 - 0.001) / (0.3 / 0.01); //
-    //     if (y >= 0.3) {
-    //       clearInterval(id);
-    //       hanaImageLeftButton.setAttribute("visible", true);
-    //       hanaImageRightButton.setAttribute("visible", true);
-    //       hanaImageLeftButton.addEventListener('click', () => {
-    //         currentItem = (currentItem - 1 + 4) % 4;
-    //         showImageItem(currentItem);
-    //       });
-    //       hanaImageRightButton.addEventListener('click', () => {
-    //         currentItem = (currentItem + 1) % 4;
-    //         showImageItem(currentItem);
-    //       });
-
-    //       hanaStartImageItem.addEventListener('click', () => {
-    //         startImageItem.setAttribute("visible", true);
-    //       });
-
-    //       setTimeout(() => {
-    //         done();
-    //       }, 500);
-    //     }
-
-    //     hanaImagePanel.setAttribute("visible", true);
-    //     hanaImagePanel.setAttribute("position", "0 " + y + " -0.01");
-    //     hanaImagePanel.setAttribute("scale", `${scale} ${scale} ${scale}`); //
-    //   }, 10);
-    // }
-
     const hanaShowAvatar = (onDone) => {
       const hanaAvatar = document.querySelector("#hana-avatar");
       let z = 0;
@@ -140,13 +41,6 @@
       const startAR = () => {
         modal.style.display = "none";
         hanaShowAvatar(() => {
-          // setTimeout(() => {
-          //   hanaShowImage(() => {
-          //     setTimeout(() => {
-          //       hanaShowInfo();
-          //     }, 100);
-          //   });
-          // }, 100);
         });
       };
 
@@ -368,7 +262,7 @@
 </head>
 
 <body>
-  <div style="color: #f00;">Ver1.0.5</div>
+  <div style="color: #f00;">Ver1.0.6</div>
 
   <div class="example-container">
     <div id="example-scanning-overlay" class="">
