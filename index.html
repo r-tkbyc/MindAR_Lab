@@ -10,9 +10,9 @@
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
 
   <script>
-    const hanaShowAvatar = (onDone) => {
-      const hanaAvatar = document.querySelector("#hana-avatar");
-      hanaAvatar.setAttribute("visible", true);
+    const myShowAvatar = (onDone) => {
+      const myAvatar = document.querySelector("#my-avatar");
+      myAvatar.setAttribute("visible", true);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -25,13 +25,13 @@
 
       const startAR = () => {
         modal.style.display = "none";
-        hanaShowAvatar(() => {
+        myShowAvatar(() => {
         });
       };
 
       okButton.addEventListener('click', startAR);
 
-      AFRAME.registerComponent('hanatarget', {
+      AFRAME.registerComponent('mytarget', {
         init: function() {
           this.el.addEventListener('targetFound', event => {
             console.log("target found");
@@ -280,8 +280,8 @@
                 raycaster="far: 10000; objects: .clickable" camera="" rotation="" wasd-controls="">
       </a-camera>
 
-      <a-entity hanatarget id="" mindar-image-target="targetIndex: 0">
-        <a-entity visible="false" id="hana-avatar" position="0 0 -0.01">
+      <a-entity mytarget id="" mindar-image-target="targetIndex: 0">
+        <a-entity visible="false" id="my-avatar" position="0 0 -0.01">
           <a-plane src="#card" position="0 0 0" rotation="0 0 0" scale="1.01 1.01 1.01" height="0.552" width="1"></a-plane>
           <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.063 0.063 0.063"></a-video>
           <a-gltf-model id="showAvatarModel" rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
