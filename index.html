@@ -12,22 +12,7 @@
   <script>
     const hanaShowAvatar = (onDone) => {
       const hanaAvatar = document.querySelector("#hana-avatar");
-      let z = 0;
-      let scale = 0.07;
-
-      const id = setInterval(() => {
-        z += 0.008;
-        scale += (0.08 - 0.001) / (0.2 / 0.008);  // 位置のアニメーションと同期させるためのスケール増分
-
-        if (z >= 0.2) {
-          clearInterval(id);
-          onDone();
-        }
-
-        hanaAvatar.setAttribute("visible", true);
-        hanaAvatar.setAttribute("position", `0 -0.085 ${z}`);
-        hanaAvatar.setAttribute("scale", `${scale} ${scale} ${scale}`);
-      }, 10);
+      hanaAvatar.setAttribute("visible", true);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -263,7 +248,7 @@
 </head>
 
 <body>
-  <div style="color: #f00;">Ver1.2.4</div>
+  <div style="color: #f00;">Ver1.2.5</div>
 
   <div class="example-container">
     <div id="example-scanning-overlay" class="">
