@@ -1,4 +1,4 @@
-<html>
+<!-- html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
@@ -24,5 +24,60 @@
       </a-entity>
       <a-text style="color: #f00">Ver1.0.0</a-text>
     </a-scene>
+  </body>
+</html -->
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+  </head>
+  <body>
+    <a-scene id="scene" mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind" 
+             color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" 
+             vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets>
+        <img id="card" src="./assets/card-example/card.png">
+        <video id="video" autoplay loop="true" src="./assets/card-example/card.mp4"></video>
+        <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+        <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065"></a-video>
+        <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
+                      animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer></a-gltf-model>
+      </a-entity>
+      <a-text style="color: #f00">Ver1.0.1</a-text>
+    </a-scene>
+
+    <button id="captureButton" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 10px 20px; font-size: 20px;">撮影</button>
+
+    <script>
+      document.getElementById('captureButton').addEventListener('click', function () {
+        var sceneEl = document.querySelector('a-scene');
+        sceneEl.renderer.preserveDrawingBuffer = true; // Enable preserveDrawingBuffer
+        var canvas = sceneEl.canvas;
+
+        // Create a temporary canvas to draw the scene
+        var tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        var context = tempCanvas.getContext('2d');
+        context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+
+        // Convert the temporary canvas to an image
+        var imgData = tempCanvas.toDataURL('image/png');
+
+        // Create a link element and trigger the download
+        var link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'screenshot.png';
+        link.click();
+      });
+    </script>
   </body>
 </html>
