@@ -51,7 +51,7 @@
         <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
                       animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer></a-gltf-model>
       </a-entity>
-      <a-text style="color: #f00">Ver1.0.2</a-text>
+      <a-text style="color: #f00">Ver1.0.3</a-text>
     </a-scene>
 
     <button id="captureButton" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 10px 20px; font-size: 20px;">撮影</button>
@@ -62,10 +62,16 @@
       const context = canvas.getContext('2d');
 
       // カメラ映像の取得
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-          video.srcObject = stream;
-        });
+      navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { exact: "environment" } }
+      })
+      .then(stream => {
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(err => {
+        console.error("外側カメラの取得に失敗しました:", err);
+      });
 
       // キャプチャボタンのイベント
       document.querySelector('#captureButton').addEventListener('click', () => {
