@@ -35,13 +35,13 @@
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <a-scene id="scene" mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: ./assets/card-example/card.mind" 
-             color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" 
+    <a-scene id="scene" mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: https://cdn.glitch.global/6dd2a500-219e-45e7-bcf9-c01ed2185428/card.mind?v=1723095779109" 
+             color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights, preserveDrawingBuffer: true" 
              vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
-        <img id="card" src="./assets/card-example/card.png">
-        <video id="video" autoplay loop="true" src="./assets/card-example/card.mp4"></video>
-        <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.glb"></a-asset-item>
+        <img id="card" src="https://cdn.glitch.global/6dd2a500-219e-45e7-bcf9-c01ed2185428/card.png?v=1723095782589">
+        <video id="video" autoplay loop="true" src="https://cdn.glitch.global/6dd2a500-219e-45e7-bcf9-c01ed2185428/card.mp4?v=1723095810463"></video>
+        <a-asset-item id="avatarModel" src="https://cdn.glitch.global/6dd2a500-219e-45e7-bcf9-c01ed2185428/scene.glb?v=1723095893752"></a-asset-item>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -51,30 +51,35 @@
         <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
                       animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer></a-gltf-model>
       </a-entity>
-      <a-text style="color: #f00">Ver1.0.1</a-text>
+      <a-text style="color: #f00">Ver1.0.2</a-text>
     </a-scene>
 
     <button id="captureButton" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 10px 20px; font-size: 20px;">撮影</button>
 
     <script>
-      document.getElementById('captureButton').addEventListener('click', function () {
-        var sceneEl = document.querySelector('a-scene');
-        sceneEl.renderer.preserveDrawingBuffer = true; // Enable preserveDrawingBuffer
-        var canvas = sceneEl.canvas;
+      const video = document.querySelector('video');
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
 
-        // Create a temporary canvas to draw the scene
-        var tempCanvas = document.createElement('canvas');
-        tempCanvas.width = canvas.width;
-        tempCanvas.height = canvas.height;
-        var context = tempCanvas.getContext('2d');
-        context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+      // カメラ映像の取得
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+        });
 
-        // Convert the temporary canvas to an image
-        var imgData = tempCanvas.toDataURL('image/png');
+      // キャプチャボタンのイベント
+      document.querySelector('#captureButton').addEventListener('click', () => {
+        // キャンバスのサイズを設定
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
-        // Create a link element and trigger the download
-        var link = document.createElement('a');
-        link.href = imgData;
+        // カメラ映像をキャンバスに描画
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/png');
+
+        // 画像データを保存または利用
+        const link = document.createElement('a');
+        link.href = imageData;
         link.download = 'screenshot.png';
         link.click();
       });
