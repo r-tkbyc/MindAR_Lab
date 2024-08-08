@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
@@ -69,4 +69,50 @@
       });
     </script>
   </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <a-scene id="scene" mindar-image="filterMinCF:0.001; filterBeta: 0.01; imageTargetSrc: https://cdn.glitch.global/6dd2a500-219e-45e7-bcf9-c01ed2185428/card.mind?v=1723095779109" 
+           color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights, preserveDrawingBuffer: true" 
+           vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-assets>
+      <img id="card" src="https://cdn.glitch.global/6dd2a500-219e-45e7-bcf9-c01ed2185428/card.png?v=1723095782589">
+      <video id="video" autoplay loop="true" src="https://cdn.glitch.global/6dd2a500-219e-45e7-bcf9-c01ed2185428/card.mp4?v=1723095810463"></video>
+      <a-asset-item id="avatarModel" src="https://cdn.glitch.global/6dd2a500-219e-45e7-bcf9-c01ed2185428/scene.glb?v=1723095893752"></a-asset-item>
+    </a-assets>
+
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <a-entity mindar-image-target="targetIndex: 0">
+      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+      <a-video src="#video" width="16" height="9" position="0 0 0.01" scale="0.065 0.065 0.065"></a-video>
+      <a-gltf-model rotation="90 0 0" position="0 0.25 0.1" scale="0.05 0.05 0.05" src="#avatarModel" 
+                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate" animation-mixer></a-gltf-model>
+    </a-entity>
+    <a-text style="color: #f00">Ver1.0.3</a-text>
+  </a-scene>
+
+  <button id="captureButton" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 10px 20px; font-size: 20px;">撮影</button>
+
+  <script>
+    document.querySelector('#captureButton').addEventListener('click', () => {
+      const scene = document.querySelector('#scene');
+      html2canvas(scene).then(canvas => {
+        const imageData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = imageData;
+        link.download = 'screenshot.png';
+        link.click();
+      });
+    });
+  </script>
+</body>
 </html>
